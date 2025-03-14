@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private float moveSpeed = 1f;
-    private float jumpForce = 5f;
+    private float moveSpeed = 2f;
+    private float jumpForce = 7f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
 
