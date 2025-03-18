@@ -11,7 +11,8 @@ public class Movement : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isGrounded;
-
+    
+    [SerializeField] Animator animator;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -26,5 +27,10 @@ public class Movement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+        
+        animator.SetFloat("JumpForce", rb.velocity.y);
+        
+        if(isGrounded) animator.SetBool("IsGrounded", true);
+        else animator.SetBool("IsGrounded", false);
     }
 }
