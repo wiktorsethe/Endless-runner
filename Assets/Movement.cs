@@ -29,8 +29,7 @@ public class Movement : MonoBehaviour
         }
         
         animator.SetFloat("JumpForce", rb.velocity.y);
-        
-        if(isGrounded) animator.SetBool("IsGrounded", true);
-        else animator.SetBool("IsGrounded", false);
+
+        animator.SetBool("IsGrounded", isGrounded);
     }
 }
