@@ -60,4 +60,17 @@ public class MapGenerator : MonoBehaviour
         levelPartPool.Enqueue(levelPart);
         activeLevelParts.Remove(levelPart);
     }
+    
+    public void ResetLevel()
+    {
+        foreach (var levelPart in activeLevelParts)
+        {
+            levelPart.gameObject.SetActive(false);
+            levelPartPool.Enqueue(levelPart);
+        }
+    
+        activeLevelParts.Clear();
+        lastEndPosition = LevelPart_Start.Find("EndPosition").position;
+    
+    }
 }
