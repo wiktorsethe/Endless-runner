@@ -9,14 +9,27 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject levelMenu;
+    [SerializeField] private GameObject deathMenu;
 
     [SerializeField] private MapGenerator mapGenerator;
+
     private void Awake()
     {
         mainMenu.SetActive(true);
         pauseMenu.SetActive(false);
         levelMenu.SetActive(false);
+        deathMenu.SetActive(false);
         Time.timeScale = 0f;
+    }
+
+    private void OnEnable()
+    {
+        Spikes.OnSpikeTouched += DeathMenu;
+    }
+
+    private void OnDisable()
+    {
+        Spikes.OnSpikeTouched -= DeathMenu;
     }
 
     public void MainMenu()
@@ -24,26 +37,36 @@ public class UI : MonoBehaviour
         mainMenu.SetActive(true);
         pauseMenu.SetActive(false);
         levelMenu.SetActive(false);
+        deathMenu.SetActive(false);
         Time.timeScale = 0f;
-        mapGenerator.ResetLevel();
-        GameObject.FindWithTag("Player").transform.position = new Vector3(0, 1, 0);
     }
-    
+
     public void PauseMenu()
     {
         mainMenu.SetActive(false);
         pauseMenu.SetActive(true);
         levelMenu.SetActive(false);
+        deathMenu.SetActive(false);
         Time.timeScale = 0f;
-
     }
-    
+
     public void LevelMenu()
     {
         mainMenu.SetActive(false);
         pauseMenu.SetActive(false);
         levelMenu.SetActive(true);
+        deathMenu.SetActive(false);
         Time.timeScale = 1f;
+        mapGenerator.ResetLevel();
+        GameObject.FindWithTag("Player").transform.position = new Vector3(0, 1, 0);
+    }
 
+    private void DeathMenu()
+    {
+        mainMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        levelMenu.SetActive(false);
+        deathMenu.SetActive(true);
+        Time.timeScale = 0f;
     }
 }
