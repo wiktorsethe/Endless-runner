@@ -25,11 +25,13 @@ public class UI : MonoBehaviour
     private void OnEnable()
     {
         Spikes.OnSpikeTouched += DeathMenu;
+        Bullet.OnBulletTouched += DeathMenu;
     }
 
     private void OnDisable()
     {
         Spikes.OnSpikeTouched -= DeathMenu;
+        Bullet.OnBulletTouched -= DeathMenu;
     }
 
     public void MainMenu()
@@ -57,8 +59,6 @@ public class UI : MonoBehaviour
         levelMenu.SetActive(true);
         deathMenu.SetActive(false);
         Time.timeScale = 1f;
-        mapGenerator.ResetLevel();
-        GameObject.FindWithTag("Player").transform.position = new Vector3(0, 1, 0);
     }
 
     private void DeathMenu()
@@ -68,5 +68,16 @@ public class UI : MonoBehaviour
         levelMenu.SetActive(false);
         deathMenu.SetActive(true);
         Time.timeScale = 0f;
+    }
+
+    public void ResetMenu()
+    {
+        mainMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        levelMenu.SetActive(true);
+        deathMenu.SetActive(false);
+        Time.timeScale = 1f;
+        mapGenerator.ResetLevel();
+        GameObject.FindWithTag("Player").transform.position = new Vector3(0, 1, 0);
     }
 }

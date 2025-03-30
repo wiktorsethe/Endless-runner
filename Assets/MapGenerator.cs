@@ -30,14 +30,20 @@ public class MapGenerator : MonoBehaviour
 
     private void InitializePool()
     {
+        List<Transform> tempPool = new List<Transform>();
         foreach (var levelPartPrefab in LevelPartList)
         {
             for (int i = 0; i < poolSize; i++)
             {
                 Transform obj = Instantiate(levelPartPrefab);
                 obj.gameObject.SetActive(false);
-                levelPartPool.Enqueue(obj);
+                tempPool.Add(obj);
             }
+        }
+        ShuffleList(tempPool);
+        foreach (var obj in tempPool)
+        {
+            levelPartPool.Enqueue(obj);
         }
     }
 
@@ -51,6 +57,15 @@ public class MapGenerator : MonoBehaviour
             levelPartTransform.gameObject.SetActive(true);
             activeLevelParts.Add(levelPartTransform);
             lastEndPosition = levelPartTransform.Find("EndPosition").position;
+        }
+    }
+
+    private void ShuffleList(List<Transform> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int randomIndex = Random.Range(i, list.Count);
+            (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
         }
     }
 
@@ -71,6 +86,5 @@ public class MapGenerator : MonoBehaviour
     
         activeLevelParts.Clear();
         lastEndPosition = LevelPart_Start.Find("EndPosition").position;
-    
     }
 }
