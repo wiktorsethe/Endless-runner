@@ -41,6 +41,8 @@ public class UI : MonoBehaviour
         levelMenu.SetActive(false);
         deathMenu.SetActive(false);
         Time.timeScale = 0f;
+        VolumeManager.TriggerSound("UIClick");
+
     }
 
     public void PauseMenu()
@@ -50,6 +52,7 @@ public class UI : MonoBehaviour
         levelMenu.SetActive(false);
         deathMenu.SetActive(false);
         Time.timeScale = 0f;
+        VolumeManager.TriggerSound("UIClick");
     }
 
     public void LevelMenu()
@@ -59,6 +62,7 @@ public class UI : MonoBehaviour
         levelMenu.SetActive(true);
         deathMenu.SetActive(false);
         Time.timeScale = 1f;
+        VolumeManager.TriggerSound("UIClick");
     }
 
     private void DeathMenu()
@@ -68,6 +72,8 @@ public class UI : MonoBehaviour
         levelMenu.SetActive(false);
         deathMenu.SetActive(true);
         Time.timeScale = 0f;
+        VolumeManager.TriggerSound("Death");
+
     }
 
     public void ResetMenu()

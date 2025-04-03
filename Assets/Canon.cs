@@ -23,5 +23,7 @@ public class Canon : MonoBehaviour
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
         bullet.GetComponent<Bullet>().Launch(-firePoint.right);
+        VolumeManager.TriggerSound("CanonFire");
+
     }
 }

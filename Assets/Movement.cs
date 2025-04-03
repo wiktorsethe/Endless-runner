@@ -16,7 +16,6 @@ public class Movement : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isGrounded;
-    private bool isJumping;
     private float jumpCharge;
     
     [SerializeField] Animator animator;
@@ -37,11 +36,6 @@ public class Movement : MonoBehaviour
         rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
 
-        if (isGrounded)
-        {
-            isJumping = false;
-        }
-
         if (Input.GetButton("Jump") && isGrounded)
         {
             jumpCharge += Time.deltaTime / jumpChargeTime;
@@ -57,11 +51,12 @@ public class Movement : MonoBehaviour
             float jumpPower = Mathf.Lerp(minJumpForce, maxJumpForce, jumpCharge);
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             jumpCharge = 0f;
-            isJumping = true;
             if (jumpChargeSlider != null)
             {
                 jumpChargeSlider.value = 0f;
             }
+            
+            VolumeManager.TriggerSound("Jump");
         }
         
         animator.SetFloat("JumpForce", rb.velocity.y);

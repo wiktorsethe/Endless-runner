@@ -15,7 +15,7 @@ public class MapGenerator : MonoBehaviour
     private void Awake()
     {
         lastEndPosition = LevelPart_Start.Find("EndPosition").position;
-        Debug.Log(lastEndPosition);
+        
         InitializePool();
         SpawnLevelPart();
     }
