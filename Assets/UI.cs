@@ -12,6 +12,7 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject deathMenu;
 
     [SerializeField] private MapGenerator mapGenerator;
+    [SerializeField] private Movement movement;
 
     private void Awake()
     {
@@ -84,6 +85,7 @@ public class UI : MonoBehaviour
         deathMenu.SetActive(false);
         Time.timeScale = 1f;
         mapGenerator.ResetLevel();
+        movement.ResetSliders();
         GameObject.FindWithTag("Player").transform.position = new Vector3(0, 1, 0);
     }
 }

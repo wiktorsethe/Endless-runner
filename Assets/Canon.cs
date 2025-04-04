@@ -10,11 +10,15 @@ public class Canon : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time >= nextFireTime)
+        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < 12)
         {
-            Fire();
-            nextFireTime = Time.time + 1f / fireRate;
+            if (Time.time >= nextFireTime)
+            {
+                Fire();
+                nextFireTime = Time.time + 1f / fireRate;
+            }
         }
+        
     }
 
     private void Fire()
