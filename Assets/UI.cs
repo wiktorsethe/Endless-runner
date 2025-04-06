@@ -13,6 +13,7 @@ public class UI : MonoBehaviour
 
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private Movement movement;
+    [SerializeField] private ScoreManager scoreManager;
 
     private void Awake()
     {
@@ -86,6 +87,7 @@ public class UI : MonoBehaviour
         Time.timeScale = 1f;
         mapGenerator.ResetLevel();
         movement.ResetSliders();
-        GameObject.FindWithTag("Player").transform.position = new Vector3(0, 1, 0);
+        scoreManager.ResetScore();
+        GameObject.FindWithTag("Player").transform.position = new Vector3(-11.30f, 1, 0);
     }
 }

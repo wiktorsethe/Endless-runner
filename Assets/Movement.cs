@@ -5,8 +5,15 @@ using UnityEngine.UI;
 
 public class Movement : MonoBehaviour
 {
-    private float moveSpeed = 2f;
-    private float maxJumpForce = 10f;
+    [Header("Movement Settings")]
+    [SerializeField] private float startSpeed = 2f;
+    [SerializeField] private float maxSpeed = 5f;
+    private float accelerationTime = 150f; // czas w sekundach do osiągnięcia maxSpeed
+
+    private float currentSpeed;
+    private float accelerationTimer;
+
+    private float maxJumpForce = 12f;
     private float minJumpForce = 4f;
     private float jumpChargeTime = 0.5f;
     private float maxJumpCharge = 1f;
@@ -34,6 +41,9 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
+        currentSpeed = startSpeed;
+        accelerationTimer = 0f;
+
         if (jumpChargeSlider != null)
         {
             jumpChargeSlider.minValue = 0f;
@@ -55,7 +65,15 @@ public class Movement : MonoBehaviour
     {
         if (!isDashing)
         {
-            rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
+            // Zwiększanie prędkości z czasem
+            if (currentSpeed < maxSpeed)
+            {
+                accelerationTimer += Time.deltaTime;
+                float t = Mathf.Clamp01(accelerationTimer / accelerationTime);
+                currentSpeed = Mathf.Lerp(startSpeed, maxSpeed, t);
+            }
+
+            rb.velocity = new Vector2(currentSpeed, rb.velocity.y);
         }
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
@@ -91,7 +109,7 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonUp("Jump") && isGrounded)
         {
             float jumpPower = Mathf.Lerp(minJumpForce, maxJumpForce, jumpCharge);
-            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            rb.velocity = new Vector2(3, jumpPower);
             jumpCharge = 0f;
 
             if (jumpChargeSlider != null)
@@ -134,12 +152,14 @@ public class Movement : MonoBehaviour
         rb.gravityScale = originalGravity;
         isDashing = false;
     }
-    
+
     public void ResetSliders()
     {
         jumpCharge = 0f;
         dashCharge = dashCooldown;
         canDash = true;
+        currentSpeed = startSpeed;
+        accelerationTimer = 0f;
 
         if (jumpChargeSlider != null)
         {
@@ -150,6 +170,8 @@ public class Movement : MonoBehaviour
         {
             dashChargeSlider.value = dashCooldown;
         }
+        
+        rb.velocity = new Vector2(0, 0);
     }
-
 }
+

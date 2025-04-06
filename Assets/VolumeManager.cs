@@ -19,24 +19,24 @@ public class VolumeManager : MonoBehaviour
     }
     private void Start()
     {
-        // if (!PlayerPrefs.HasKey("musicVolume"))
-        // {
-        //     PlayerPrefs.SetFloat("musicVolume", 0.5f);
-        //     LoadMusic();
-        // }
-        // else
-        // {
-        //     LoadMusic();
-        // }
-        // if (!PlayerPrefs.HasKey("soundEffectsVolume"))
-        // {
-        //     PlayerPrefs.SetFloat("soundEffectsVolume", 0.5f);
-        //     LoadSoundEffects();
-        // }
-        // else
-        // {
-        //     LoadSoundEffects();
-        // }
+        if (!PlayerPrefs.HasKey("musicVolume"))
+        {
+            PlayerPrefs.SetFloat("musicVolume", 0.5f);
+            LoadMusic();
+        }
+        else
+        {
+            LoadMusic();
+        }
+        if (!PlayerPrefs.HasKey("soundEffectsVolume"))
+        {
+            PlayerPrefs.SetFloat("soundEffectsVolume", 0.5f);
+            LoadSoundEffects();
+        }
+        else
+        {
+            LoadSoundEffects();
+        }
         
         foreach (var audioSource in GetComponentsInChildren<AudioSource>())
         {
@@ -46,6 +46,8 @@ public class VolumeManager : MonoBehaviour
     public void ChangeMusicVolume()
     {
         musicAudio.volume = musicSlider.value;
+        
+        TriggerSound("UIClick");
         SaveMusic();
     }
     public void ChangeSoundEffectsVolume()
@@ -54,13 +56,17 @@ public class VolumeManager : MonoBehaviour
         {
             eachSource.volume = soundEffectsSlider.value;
         }
+        
+        TriggerSound("UIClick");
         SaveSoundEffects();
     }
-    public void LoadMusic()
+
+    private void LoadMusic()
     {
         musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
     }
-    public void LoadSoundEffects()
+
+    private void LoadSoundEffects()
     {
         soundEffectsSlider.value = PlayerPrefs.GetFloat("soundEffectsVolume");
     }
