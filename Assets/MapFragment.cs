@@ -16,7 +16,7 @@ public class MapFragment : MonoBehaviour
     }
     private void Update()
     {
-        if (GameObject.FindGameObjectWithTag("Player").transform.position.x > _position.x + 80f)
+        if (GameObject.FindGameObjectWithTag("Player").transform.position.x > _position.x + 250f)
         {
             mapGenerator.ReturnToPool(this.transform);
         }

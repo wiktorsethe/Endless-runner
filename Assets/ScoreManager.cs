@@ -3,12 +3,13 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    [Header("Text References")]
     public TextMeshProUGUI[] currentScoreText;
     public TextMeshProUGUI bestScoreText;
+    public Transform playerTransform;
 
     private float _currentScore = 0;
     private float _bestScore = 0;
+    private float startX = -11.3f;
 
     void Start()
     {
@@ -18,15 +19,21 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        _currentScore += Time.deltaTime * 10;
-
-        UpdateScoreUI();
-
-        if (_currentScore > _bestScore)
+        if (playerTransform != null)
         {
-            _bestScore = _currentScore;
-            PlayerPrefs.SetFloat("BestScore", _bestScore);
-            PlayerPrefs.Save();
+            _currentScore = (playerTransform.position.x - startX) * 10;
+
+            if (_currentScore < 0)
+                _currentScore = 0;
+
+            if (_currentScore > _bestScore)
+            {
+                _bestScore = _currentScore;
+                PlayerPrefs.SetFloat("BestScore", _bestScore);
+                PlayerPrefs.Save();
+            }
+
+            UpdateScoreUI();
         }
     }
 

@@ -30,13 +30,14 @@ public class Movement : MonoBehaviour
     [SerializeField] private float dashSpeed = 20f;
     [SerializeField] private float dashDuration = 0.25f;
     [SerializeField] private float dashCooldown = 2f;
+    [SerializeField] private float fastFallSpeed = 20f;
+
 
     private bool isDashing = false;
     private bool canDash = true;
     private float dashCharge;
 
-    [SerializeField] Animator animator;
-
+    [SerializeField] private Animator animator;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -125,6 +126,13 @@ public class Movement : MonoBehaviour
         {
             StartCoroutine(PerformDash());
         }
+        
+        if (!isGrounded && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -fastFallSpeed);
+        }
+
+
 
         animator.SetFloat("JumpForce", rb.velocity.y);
         animator.SetBool("IsGrounded", isGrounded);
@@ -146,11 +154,12 @@ public class Movement : MonoBehaviour
         rb.velocity = new Vector2(dashSpeed, 0f);
 
         VolumeManager.TriggerSound("Dash");
-
+        GhostEffect.StartEffect();
         yield return new WaitForSeconds(dashDuration);
 
         rb.gravityScale = originalGravity;
         isDashing = false;
+        GhostEffect.StopEffect();
     }
 
     public void ResetSliders()

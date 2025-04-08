@@ -6,19 +6,21 @@ public class Canon : MonoBehaviour
 {
     public Transform firePoint;
     public float fireRate = 1f;
-    private float nextFireTime;
+    private float _nextFireTime;
+
+    public enum Direction { Left, Right }
+    public Direction fireDirection = Direction.Left;
 
     private void Update()
     {
-        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < 12)
+        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < 20)
         {
-            if (Time.time >= nextFireTime)
+            if (Time.time >= _nextFireTime)
             {
                 Fire();
-                nextFireTime = Time.time + 1f / fireRate;
+                _nextFireTime = Time.time + 1f / fireRate;
             }
         }
-        
     }
 
     private void Fire()
@@ -26,8 +28,10 @@ public class Canon : MonoBehaviour
         GameObject bullet = BulletPool.Instance.GetBullet();
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
-        bullet.GetComponent<Bullet>().Launch(-firePoint.right);
-        VolumeManager.TriggerSound("CanonFire");
 
+        Vector2 direction = (fireDirection == Direction.Left) ? -firePoint.right : firePoint.right;
+        bullet.GetComponent<Bullet>().Launch(direction);
+
+        VolumeManager.TriggerSound("CanonFire");
     }
 }

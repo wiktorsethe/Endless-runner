@@ -43,6 +43,7 @@ public class UI : MonoBehaviour
         levelMenu.SetActive(false);
         deathMenu.SetActive(false);
         Time.timeScale = 0f;
+        ResetMenu();
         VolumeManager.TriggerSound("UIClick");
 
     }
