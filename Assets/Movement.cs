@@ -128,7 +128,7 @@ public class Movement : MonoBehaviour
         }
         
         if (!isGrounded && Input.GetKeyDown(KeyCode.DownArrow))
-        {
+        { 
             rb.velocity = new Vector2(rb.velocity.x, -fastFallSpeed);
         }
 

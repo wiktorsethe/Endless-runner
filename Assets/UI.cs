@@ -79,7 +79,15 @@ public class UI : MonoBehaviour
 
     }
 
-    public void ResetMenu()
+    private void ResetMenu()
+    {
+        mapGenerator.ResetLevel();
+        movement.ResetSliders();
+        scoreManager.ResetScore();
+        GameObject.FindWithTag("Player").transform.position = new Vector3(-11.30f, 1, 0);
+    }
+
+    public void TryAgain()
     {
         mainMenu.SetActive(false);
         pauseMenu.SetActive(false);

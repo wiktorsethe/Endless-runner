@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  particles: {fileID: 7944111633751432927, guid: b5a33022eb7bf45c29db20acab57ff2b, type: 3}
 --- !u!50 &3983712194793604692
 Rigidbody2D:
   serializedVersion: 4
