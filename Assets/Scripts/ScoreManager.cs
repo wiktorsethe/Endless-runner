@@ -3,13 +3,13 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    public TextMeshProUGUI[] currentScoreText;
-    public TextMeshProUGUI bestScoreText;
-    public Transform playerTransform;
+    [SerializeField] private TextMeshProUGUI[] currentScoreText;
+    [SerializeField] private TextMeshProUGUI bestScoreText;
+    [SerializeField] private Transform playerTransform;
 
     private float _currentScore = 0;
     private float _bestScore = 0;
-    private float startX = -11.3f;
+    private const float StartX = -11.3f;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (playerTransform != null)
         {
-            _currentScore = (playerTransform.position.x - startX) * 10;
+            _currentScore = (playerTransform.position.x - StartX) * 10;
 
             if (_currentScore < 0)
                 _currentScore = 0;

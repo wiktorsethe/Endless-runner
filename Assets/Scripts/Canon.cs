@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Canon : MonoBehaviour
 {
-    public Transform firePoint;
-    public float fireRate = 1f;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private float fireRate = 1f;
     private float _nextFireTime;
 
     public enum Direction { Left, Right }

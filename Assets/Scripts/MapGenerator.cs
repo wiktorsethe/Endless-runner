@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+    [Header("Level Settings")]
     [SerializeField] private Transform LevelPart_Start;
     [SerializeField] private List<Transform> LevelPartList;
+
+    [Header("Generation Settings")]
     [SerializeField] private int poolSize = 5;
-    [SerializeField] private float player_distance_spawn_level_part = 20f;
+    [SerializeField] private float playerDistanceToSpawnPart = 20f;
 
     private Vector3 lastEndPosition;
     private Queue<Transform> levelPartPool = new Queue<Transform>();
@@ -15,14 +18,16 @@ public class MapGenerator : MonoBehaviour
     private void Awake()
     {
         lastEndPosition = LevelPart_Start.Find("EndPosition").position;
-        
+
         InitializePool();
         SpawnLevelPart();
     }
 
     private void Update()
     {
-        if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, lastEndPosition) < player_distance_spawn_level_part)
+        Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
+        if (Vector3.Distance(playerTransform.position, lastEndPosition) < playerDistanceToSpawnPart)
         {
             SpawnLevelPart();
         }
@@ -31,6 +36,7 @@ public class MapGenerator : MonoBehaviour
     private void InitializePool()
     {
         List<Transform> tempPool = new List<Transform>();
+
         foreach (var levelPartPrefab in LevelPartList)
         {
             for (int i = 0; i < poolSize; i++)
@@ -40,7 +46,9 @@ public class MapGenerator : MonoBehaviour
                 tempPool.Add(obj);
             }
         }
+
         ShuffleList(tempPool);
+
         foreach (var obj in tempPool)
         {
             levelPartPool.Enqueue(obj);
@@ -53,8 +61,10 @@ public class MapGenerator : MonoBehaviour
         {
             Transform levelPartTransform = levelPartPool.Dequeue();
             levelPartTransform.position = lastEndPosition;
+
             levelPartTransform.GetComponent<MapFragment>().SetPosition(lastEndPosition);
             levelPartTransform.gameObject.SetActive(true);
+
             activeLevelParts.Add(levelPartTransform);
             lastEndPosition = levelPartTransform.Find("EndPosition").position;
         }
@@ -75,7 +85,7 @@ public class MapGenerator : MonoBehaviour
         levelPartPool.Enqueue(levelPart);
         activeLevelParts.Remove(levelPart);
     }
-    
+
     public void ResetLevel()
     {
         foreach (var levelPart in activeLevelParts)
@@ -83,7 +93,7 @@ public class MapGenerator : MonoBehaviour
             levelPart.gameObject.SetActive(false);
             levelPartPool.Enqueue(levelPart);
         }
-    
+
         activeLevelParts.Clear();
         lastEndPosition = LevelPart_Start.Find("EndPosition").position;
     }

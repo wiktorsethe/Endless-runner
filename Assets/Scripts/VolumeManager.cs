@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 public class VolumeManager : MonoBehaviour
 {
-    [SerializeField] Slider musicSlider;
-    [SerializeField] Slider soundEffectsSlider;
-    [SerializeField] AudioSource musicAudio;
-    [SerializeField] AudioSource[] soundEffectsAudio;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider soundEffectsSlider;
+    [SerializeField] private AudioSource musicAudio;
+    [SerializeField] private AudioSource[] soundEffectsAudio;
     private readonly Dictionary<string, AudioSource> _soundEffects = new Dictionary<string, AudioSource>();
     
     public static event Action<string> OnPlaySound;

@@ -5,10 +5,10 @@ using UnityEngine;
 public class BulletPool : MonoBehaviour
 {
     public static BulletPool Instance;
-    public GameObject bulletPrefab;
-    public int poolSize = 10;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private int poolSize = 10;
 
-    private Queue<GameObject> bulletPool = new Queue<GameObject>();
+    private Queue<GameObject> _bulletPool = new Queue<GameObject>();
 
     private void Awake()
     {
@@ -22,15 +22,15 @@ public class BulletPool : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletPrefab);
             bullet.SetActive(false);
-            bulletPool.Enqueue(bullet);
+            _bulletPool.Enqueue(bullet);
         }
     }
 
     public GameObject GetBullet()
     {
-        if (bulletPool.Count > 0)
+        if (_bulletPool.Count > 0)
         {
-            GameObject bullet = bulletPool.Dequeue();
+            GameObject bullet = _bulletPool.Dequeue();
             return bullet;
         }
         else
